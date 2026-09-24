@@ -13,11 +13,10 @@ b) El padre todo menos el if, ya que va a ejecutar la parte del else.
 El hijo a partir de la linea del fork, pero ejecutará la parte del if
 y saltará al print de Fin
 
-c)  Mensaje de "Inicio", 1 vez por el padre.
-    Mensaje de "Después del fork", 2 veces una por el padre y una por el hijo.
-    Mensaje de "Soy el padre", 1 vez por el padre.
-    Mensaje de "Soy el hijo", 1 vez por el hijo.
-    Mensaje de "Fin", 2 veces una por el padre y una por el hijo.
+c)  Mensaje de "Después del fork", 2 veces.
+    Mensaje de "Soy el padre", 1 veces.
+    Mensaje de "Soy el hijo", 1 veces.
+    Mensaje de "Fin", 2 veces.
 */
 
 
