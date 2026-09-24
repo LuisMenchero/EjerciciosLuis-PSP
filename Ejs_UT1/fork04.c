@@ -5,33 +5,27 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-/*
--- RESPUESTAS --
-a) Existen 2 procesos, el padre y 1 hijo creado en la linea del fork
-
-b) El padre todo menos el if, ya que va a ejecutar la parte del else.
-El hijo a partir de la linea del fork, pero ejecutará la parte del if
-y saltará al print de Fin
-
-c)  Mensaje de "Después del fork", 2 veces.
-    Mensaje de "Soy el padre", 1 veces.
-    Mensaje de "Soy el hijo", 1 veces.
-    Mensaje de "Fin", 2 veces.
-*/
-
-
 void main()
 {
-    printf("Inicio\n");
-    pid_t pid = fork();
-    printf("Después del fork\n");
-    if (pid == 0)
-    {
-        printf("Soy el hijo\n");
+    pid_t pid;
+
+    pid = fork();
+
+    if (pid == 0) {
+        sleep(3);
+    } else {
+        pid = fork();
+        if (pid == 0) {
+            sleep(1);
+        } else {
+            wait(NULL);
+            wait(NULL);
+            printf("Todos mis hijos han terminado \n");
+        }
     }
-    else
-    {
-        printf("Soy el padre\n");
-    }
-    printf("Fin\n");
+
+    printf("Mi PID es: %d \n", getpid());
+    printf("El PID de mi padre es: %d \n", getppid());
+
+    exit(0);
 }
