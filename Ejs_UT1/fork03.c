@@ -1,4 +1,4 @@
-// Segundo ejercicio
+// Tercer ejercicio
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
