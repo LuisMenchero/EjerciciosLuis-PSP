@@ -7,24 +7,29 @@
 
 void main()
 {
-  pid_t pid, pid2, pid3, pid4, pid5;
+  pid_t pid, pid2, pid3, pid4, pid5, pidAbuelo1, pidAbuelo2;
 
+
+  pidAbuelo1 = getpid();
   pid = fork();
 
   if (pid == 0) { // P2
+    pidAbuelo2 = getpid();
     pid2 = fork();
     if (pid2 == 0) { // P3
+      
       pid3 = fork();
       if (pid3 == 0) { // P5
         printf("P5 \n");
 
         printf("Mi PID es: %d \n",getpid());
-        printf("El PID de mi abuelo es: %d \n",);
+        printf("El PID de mi abuelo es: %d \n",pidAbuelo2);
 
       } else { // P3
         wait(NULL);
         printf("P3 \n");
-
+        printf("Mi PID es: %d \n",getpid());
+        printf("El PID de mi abuelo es: %d \n",pidAbuelo1);
 
 
 
@@ -32,18 +37,20 @@ void main()
     } else { // P2
       pid4 = fork();
       if (pid4 == 0) { // P4
+        
         pid5 = fork();
         if (pid5 == 0) { // P6
           printf("P6 \n");
 
           printf("Mi PID es: %d \n",getpid());
-          printf("El PID de mi abuelo es: %d \n",pid);
+          printf("El PID de mi abuelo es: %d \n",pidAbuelo2);
 
 
         } else { // P4
           wait(NULL);
           printf("P4 \n");
-
+          printf("Mi PID es: %d \n",getpid());
+          printf("El PID de mi abuelo es: %d \n",pidAbuelo1);
 
 
         }
