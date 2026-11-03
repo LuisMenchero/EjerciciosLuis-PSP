@@ -22,10 +22,10 @@ int main()
         // P2
         // leer pipe 3
         close(fd3[1]);
-        int numRecibido, media = 0, numMax = 0;
+        double media = 0, numRecibido, numMax = 0;
         while (read(fd3[0], &buffer, sizeof(buffer)))
         {
-            numRecibido = atoi(buffer);
+            numRecibido = atof(buffer);
 
             if (numMax < numRecibido)
             {
@@ -57,30 +57,39 @@ int main()
         {
             // P3
             // leer pipe 2
-            close(fd2[1]);
+            close(fd4[1]);
             int numRecibido, numAprobados = 0, numSuspensos = 0;
-            while (read(fd2[0], &buffer, sizeof(buffer)))
+            while (read(fd4[0], &buffer, sizeof(buffer)))
             {
-                numRecibido = atoi(buffer);
-                resulMulti *= numRecibido;
+                if (atof(buffer) >= 5)
+                {
+                    numAprobados++;
+                }
+                else
+                {
+                    numSuspensos++;
+
+                }
             }
-            close(fd2[0]);
+            close(fd4[0]);
 
             // escribir en pipe 4
-            close(fd4[0]);
-            write(fd4[1], &resulMulti, sizeof(resulMulti));
-            close(fd4[1]);
+            close(fd2[0]);
+            write(fd2[1], &numAprobados, sizeof(numAprobados));
+            write(fd2[1], &numSuspensos, sizeof(numSuspensos));
+            close(fd2[1]);
         }
         else
         {
             // P1
             // Pedir 10 notas
-            int numNotasIntroducidas = 0, notaIntroducida;
+            int numNotasIntroducidas = 0;
             double notas[10];
+            double notaIntroducida;
             int tamañoArray = sizeof(notas) / sizeof(notas[0]);
             do{
                 printf("Introduce una nota número %d: ",numNotasIntroducidas+1);
-                scanf("%d", &notaIntroducida);
+                scanf("%lf", &notaIntroducida);
                 if (notaIntroducida >= 0 && notaIntroducida <= 10)
                 {
                     notas[numNotasIntroducidas] = notaIntroducida;
@@ -95,7 +104,7 @@ int main()
             close(fd4[0]);
             for (int i = 0; i < tamañoArray; i++)
             {
-                sprintf(buffer, "%d", notas[i]);
+                sprintf(buffer, "%.2f", notas[i]);
                 write(fd3[1], buffer, sizeof(buffer));
                 write(fd4[1], buffer, sizeof(buffer));
             }
@@ -104,21 +113,47 @@ int main()
 
             wait(NULL);
             wait(NULL);
-            /*
-            // leer pipe 3
-            close(fd3[1]);
-            int resulSum;
-            read(fd3[0], &resulSum, sizeof(resulSum));
-            printf("Resultado suma: %d \n", resulSum);
-            close(fd3[0]);
 
-            // leer pipe 4
-            close(fd4[1]);
-            int resulMulti;
-            read(fd4[0], &resulMulti, sizeof(resulMulti));
-            printf("Resultado multiplicación: %d \n", resulMulti);
-            close(fd4[0]);
-            */
+
+
+            
+            // leer pipe 1
+            close(fd1[1]);
+            double resultadosRecibidos;
+            int i = 0;
+            while (read(fd1[0], &resultadosRecibidos, sizeof(resultadosRecibidos)) > 0)
+            {
+                if  (i == 0)
+                {
+                    printf("Nota media: %.2f \n", resultadosRecibidos);
+                }
+                else
+                {
+                    printf("Nota máxima: %.2f \n", resultadosRecibidos);
+                }
+                i++;
+            }
+            
+            close(fd1[0]);
+
+            // leer pipe 2
+            close(fd2[1]);
+            i = 0;
+            int numLeido;
+            while (read(fd2[0], &numLeido, sizeof(numLeido)) > 0)
+            {
+                if  (i == 0)
+                {
+                    printf("Num aprobados: %d \n", numLeido);
+                }
+                else
+                {
+                    printf("Num suspensos: %d \n", numLeido);
+                }
+                i++;
+            }
+            close(fd2[0]);
+            
         }
     }
 }
