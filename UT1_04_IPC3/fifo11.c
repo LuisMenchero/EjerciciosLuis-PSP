@@ -35,12 +35,7 @@ int main()
 
 
     // Crear fifo 2
-    const char *fifo2 = "FIFO2";
-	int error2;
-	
-    error2=mkfifo(fifo2, 0666);
-
-    int fd2 = open(fifo2, O_RDONLY);
+    int fd2 = open("FIFO2", O_RDONLY);
     int resulFactorial;
     // Leer el número enviado
     if (read(fd2, &resulFactorial, sizeof(resulFactorial)) == -1) {

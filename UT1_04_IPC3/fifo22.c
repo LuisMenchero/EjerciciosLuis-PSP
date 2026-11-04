@@ -6,11 +6,7 @@
 
 int main()
 {
-    // Crear fifo 1
     const char *fifo = "PIPE02";
-	int error;
-	
-    error=mkfifo(fifo, 0666);
 
      // Abrir FIFO para lectura (bloquea hasta que el escritor escriba)
     int fd = open(fifo, O_RDONLY);

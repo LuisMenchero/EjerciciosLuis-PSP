@@ -6,14 +6,8 @@
 
 int main()
 {
-    // Crear fifo 1
-    const char *fifo1 = "FIFO1";
-	int error;
-	
-    error=mkfifo(fifo1, 0666);
-
      // Abrir FIFO para lectura (bloquea hasta que el escritor escriba)
-    int fd = open(fifo1, O_RDONLY);
+    int fd = open("FIFO1", O_RDONLY);
     if (fd == -1) {
         printf("lector: error al abrir FIFO");
         exit(EXIT_FAILURE);
