@@ -4,7 +4,6 @@
 #include <signal.h>
 
 
-volatile int segundosTranscurridos = 0;
 
 void funcion_señal(int signum)
 {
